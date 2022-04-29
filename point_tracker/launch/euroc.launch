@@ -1,0 +1,10 @@
+<launch>
+	<arg name = "config_path" default="$(find point_tracker)/../config/euroc_config.yaml" />
+	<node name = "point_tracker" pkg = "point_tracker" type = "point_tracker" output = "screen">
+	<param name = "config_file" type = "string" value = "$(arg config_path)" />
+	</node>
+	<node name = "myvo" pkg = "myvo" type = "myvo" output = "screen">
+	<param name = "calib_file" type = "string" value = "$(arg config_path)" />
+	</node>
+</launch>
+
