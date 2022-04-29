@@ -40,7 +40,8 @@ class FeatureManager {
   void Initialization(int frame_count, bool &result, cv::Mat &m_K,
                       Eigen::Matrix3d Rwc[], Eigen::Vector3d twc[]);
   bool extractPoints(int frame_i, int frame_j,
-                     vector<vector<cv::Point2f>> &points);
+                     vector<vector<cv::Point2f>> &points,
+                     vector<int> &points_id);
 
   list<FeaturePerId> feature;
 };

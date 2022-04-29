@@ -75,7 +75,8 @@ void FeatureManager::Initialization(int frame_count, bool &result, cv::Mat &m_K,
                                     Eigen::Matrix3d Rwc[],
                                     Eigen::Vector3d twc[]) {
   vector<vector<cv::Point2f>> points;
-  if (extractPoints(0, frame_count, points)) {
+  vector<int> points_id;
+  if (extractPoints(0, frame_count, points, points_id)) {
     result = true;
     auto points_incam = points;
     toPixel(points);
@@ -113,6 +114,7 @@ void FeatureManager::Initialization(int frame_count, bool &result, cv::Mat &m_K,
       point3d /= point3d.at<float>(3, 0);
 
       cv::Point2f point(point3d.at<float>(0, 0), point3d.at<float>(1, 0));
+      //把结果赋值给FeaturePerId
     }
 
     //归一化
@@ -132,7 +134,8 @@ void FeatureManager::Initialization(int frame_count, bool &result, cv::Mat &m_K,
 }
 
 bool FeatureManager::extractPoints(int frame_i, int frame_j,
-                                   vector<vector<cv::Point2f>> &points) {
+                                   vector<vector<cv::Point2f>> &points,
+                                   vector<int> &points_id) {
   ROS_WARN("start to extract points");
   // ROS_ASSERT(points.size() == 2);
   points.resize(2);
@@ -140,6 +143,7 @@ bool FeatureManager::extractPoints(int frame_i, int frame_j,
   Eigen::Vector2d obs_i, obs_j;
   for (auto &it_per_id : feature) {
     int obs_size = it_per_id.feature_per_frame.size();
+    int feature_id = it_per_id.feature_id;
     if (it_per_id.start_frame <= frame_i &&
         obs_size + it_per_id.start_frame - 1 >= frame_j) {
       obs_i = it_per_id.feature_per_frame[frame_i - it_per_id.start_frame].obs;
@@ -150,6 +154,7 @@ bool FeatureManager::extractPoints(int frame_i, int frame_j,
       point.x = obs_j(0);
       point.y = obs_j(1);
       points[1].push_back(point);
+      points_id.push_back(feature_id);
     }
   }
   if (points[0].size() >= 8) {
