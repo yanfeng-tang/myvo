@@ -28,6 +28,9 @@ include_directories(
 )
 
 add_executable(myvo
+	src/factor/optimization.cpp
+	#src/factor/visualization.cpp
+	src/factor/projection_factor.cpp
 	src/parameter.cpp
 	src/rosNode.cpp
 	src/estimator.cpp

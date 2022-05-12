@@ -5,11 +5,11 @@
 #include <vector>
 
 #include "estimator.h"
+#include "factor/visualization.h"
 
 Estimator estimator;
 
 void callback(const sensor_msgs::PointCloudConstPtr &point_msg) {
-  ROS_WARN("succeed receive msg");
   vector<std::pair<int, cv::Point2f>> points;
   int feature_id;
   cv::Point2f point;
@@ -21,6 +21,9 @@ void callback(const sensor_msgs::PointCloudConstPtr &point_msg) {
     points.push_back({feature_id, point});
   }
   estimator.ProcessImage(points);
+  std_msgs::Header header = point_msg->header;
+  // pubOdometry(estimator, header);
+  // pubPointCloud(estimator, header);
 }
 
 int main(int argc, char **argv) {

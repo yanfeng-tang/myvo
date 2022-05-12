@@ -5,6 +5,8 @@ int ROW;
 int COL;
 double FOCALLENGTH;
 double MIN_PARALLAX;
+cv::Mat distCoeffs;
+std::string VINS_RESULT_PATH;
 
 void readParameter(ros::NodeHandle &n) {
   std::string config_file;
@@ -21,6 +23,11 @@ void readParameter(ros::NodeHandle &n) {
   }
   COL = fsSetting["image_width"];
   ROW = fsSetting["image_height"];
+  fsSetting["output_path"] >> VINS_RESULT_PATH;
+  std::ofstream foutC(VINS_RESULT_PATH, std::ios::out);
+  foutC.close();
+  fsSetting["distortion_parameters"] >> distCoeffs;
+  std::cout << "distCoef: " << distCoeffs << std::endl;
   FOCALLENGTH = 460.0;
   // WINDOW_SIZE = 10;
   MIN_PARALLAX = fsSetting["keyframe_parallax"];

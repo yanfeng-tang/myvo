@@ -3,18 +3,18 @@
 #common parameters
 imu_topic: "/imu0"
 image_topic: "/cam0/image_raw"
-output_path: "/home/tangyf/catkin_ws_2/src/VINS-Mono/config/output/result.txt"         # vins outputs will be wrttento vins_folder_path + output_path
+output_path: "/home/tangyf/myvo/src/config/result.txt"         # vins outputs will be wrttento vins_folder_path + output_path
 
 #camera calibration 
 model_type: PINHOLE
 camera_name: camera
 image_width: 752
 image_height: 480
-distortion_parameters:
-   k1: -2.917e-01
-   k2: 8.228e-02
-   p1: 5.333e-05
-   p2: -1.578e-04
+distortion_parameters: !!opencv-matrix
+   rows: 4
+   cols: 1
+   dt: d
+   data: [-2.917e-01, 8.228e-02,5.333e-05, -1.578e-04]
 projection_parameters:
    fx: 4.616e+02
    fy: 4.603e+02
